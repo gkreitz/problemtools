@@ -49,3 +49,6 @@ def test_update_dict():
 
     update_dict(dict1, dict3)
     assert dict1 == {'a': 0, 'b': 12, 'c': 3}
+
+def test_broken_test():
+    assert True == False
