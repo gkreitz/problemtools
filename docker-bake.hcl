@@ -27,7 +27,8 @@ target "_matrix" {
     target = tgt
     context = "."
     args = {
-        GITTAG = notequal(TAG, "develop") ? TAG : "master"
+        GITTAG = notequal(TAG, "develop") ? TAG : "master",
+        BUILDKIT_CONTEXT_KEEP_GIT_DIR = 1
     }
     platforms = equal(PLATFORM, "all") ? ["linux/amd64", "linux/arm64"] : [PLATFORM]
 }
