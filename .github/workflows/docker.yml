@@ -1,0 +1,46 @@
+name: Build docker images
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'tag to build (develop or v...)'
+        required: true
+        type: string
+      platforms:
+        description: 'platform(s) (all, linux/amd64, linux/arm64)'
+        required: true
+        type: string
+      targets:
+        description: 'target(s) from bakefile (all, minimal, icpc, full, githubci)'
+        required: true
+        type: string
+
+jobs:
+  push-to-docker:
+    name: Build (and later, push) docker image(s) to docker hub
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
+    env:
+      TAG: ${{ inputs.tag }}
+      PLATFORM: ${{ inputs.platform }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # We need full history for setuptools_scm to figure out version
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build (and later, push)
+        uses: docker/bake-action@v6
+        with:
+          targets: ${{ inputs.targets }}
