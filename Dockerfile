@@ -72,7 +72,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         libboost-regex-dev
 RUN git config --global --add safe.directory /git/problemtools/.git
 RUN --mount=type=bind,target=/git/problemtools \
-    git clone --branch ${GITTAG} --recurse-submodules /git/problemtools /deb/problemtools
+    git clone --recurse-submodules /git/problemtools /deb/problemtools
 RUN make -C /deb/problemtools builddeb
 
 
