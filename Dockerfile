@@ -70,6 +70,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         git \
         make \
         libboost-regex-dev
+ENV SETUPTOOLS_SCM_PRETEND_VERSION_FOR_PROBLEMTOOLS=$GITTAG
 RUN git config --global --add safe.directory /git/problemtools/.git
 RUN --mount=type=bind,target=/git/problemtools \
     git clone --recurse-submodules /git/problemtools /deb/problemtools
